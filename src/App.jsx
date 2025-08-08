@@ -19,7 +19,7 @@ function App() {
 
         try {
             const res = await axios.post(
-                "https://sadaman-plivo-image.hf.space/caption", // FastAPI endpoint
+                "https://sadaman-plivo-image.hf.space/caption",
                 formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
@@ -44,11 +44,25 @@ function App() {
     };
 
     return (
-        <>
-            <div style={{ maxWidth: "400px", margin: "2rem auto", textAlign: "center" }}>
-                <h2>Image Captioning</h2>
+        <div style={{
+            minHeight: "100vh",
+            backgroundColor: "#f5f6fa",
+            padding: "2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+        }}>
+            <div style={{
+                backgroundColor: "#fff",
+                padding: "2rem",
+                borderRadius: "10px",
+                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+                maxWidth: "500px",
+                width: "100%",
+                textAlign: "center"
+            }}>
+                <h2 style={{ marginBottom: "1rem", color: "#333" }}>Image Captioning</h2>
 
-                {/* Hidden File Input */}
                 <input
                     type="file"
                     accept="image/*"
@@ -57,68 +71,98 @@ function App() {
                     onChange={handleFileChange}
                 />
 
-                {/* Upload Button */}
                 <button
                     onClick={handleUploadClick}
                     style={{
                         padding: "0.5rem 1rem",
                         border: "none",
-                        borderRadius: "4px",
+                        borderRadius: "6px",
                         backgroundColor: "#28a745",
                         color: "#fff",
                         cursor: "pointer",
                         fontWeight: "bold",
+                        marginBottom: "1rem"
                     }}
                 >
                     Choose Image
                 </button>
 
-                {/* Image Preview */}
                 {preview && (
-                    <div style={{ margin: "1rem 0" }}>
+                    <div style={{
+                        margin: "1rem 0",
+                        border: "1px solid #ddd",
+                        borderRadius: "8px",
+                        overflow: "hidden"
+                    }}>
                         <img
                             src={preview}
                             alt="Preview"
-                            style={{ maxWidth: "100%", borderRadius: "8px" }}
+                            style={{ maxWidth: "100%", display: "block" }}
                         />
                     </div>
                 )}
 
-                {/* Get Description Button */}
                 {file && (
                     <button
                         onClick={handleCaptionRequest}
                         disabled={loading}
                         style={{
-                            marginTop: "1rem",
+                            marginTop: "0.5rem",
                             padding: "0.5rem 1rem",
                             border: "none",
-                            borderRadius: "4px",
+                            borderRadius: "6px",
                             backgroundColor: loading ? "#6c757d" : "#007bff",
                             color: "#fff",
                             cursor: loading ? "not-allowed" : "pointer",
+                            fontWeight: "bold"
                         }}
                     >
                         {loading ? "Processing..." : "Get Description"}
                     </button>
                 )}
 
-                {/* Description Output */}
                 {description && (
-                    <p style={{ marginTop: "1rem" }}>
+                    <div style={{
+                        marginTop: "1rem",
+                        padding: "0.8rem",
+                        border: "1px solid #ddd",
+                        borderRadius: "6px",
+                        backgroundColor: "#f9f9f9",
+                        textAlign: "left"
+                    }}>
                         <strong>Description:</strong> {description}
-                    </p>
+                    </div>
                 )}
-            </div>
 
-            {/* Placeholder buttons for other features */}
-            <button>
-                Get Speech diarization
-            </button>
-            <button>
-                Summarize Document
-            </button>
-        </>
+                <div style={{ marginTop: "2rem" }}>
+                    <h3 style={{ color: "#333", marginBottom: "0.8rem" }}>Other Features</h3>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                        <button style={{
+                            padding: "0.5rem 1rem",
+                            border: "none",
+                            borderRadius: "6px",
+                            backgroundColor: "#17a2b8",
+                            color: "#fff",
+                            cursor: "pointer",
+                            fontWeight: "bold"
+                        }}>
+                            Get Speech Diarization
+                        </button>
+                        <button style={{
+                            padding: "0.5rem 1rem",
+                            border: "none",
+                            borderRadius: "6px",
+                            backgroundColor: "#ffc107",
+                            color: "#333",
+                            cursor: "pointer",
+                            fontWeight: "bold"
+                        }}>
+                            Summarize Document
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 
