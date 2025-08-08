@@ -43,124 +43,117 @@ function App() {
         fileInputRef.current.click();
     };
 
+    const buttonStyle = {
+        padding: "0.75rem 1.5rem",
+        border: "none",
+        borderRadius: "6px",
+        fontWeight: "bold",
+        fontSize: "1rem",
+        color: "#fff",
+        cursor: "pointer",
+        transition: "background 0.3s ease",
+        margin: "0.5rem"
+    };
+
     return (
         <div style={{
-            minHeight: "100vh",
-            backgroundColor: "#f5f6fa",
+            maxWidth: "1000px",
+            margin: "2rem auto",
             padding: "2rem",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center"
+            backgroundColor: "#fff",
+            borderRadius: "12px",
+            boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+            textAlign: "center"
         }}>
-            <div style={{
-                backgroundColor: "#fff",
-                padding: "2rem",
-                borderRadius: "10px",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-                maxWidth: "500px",
-                width: "100%",
-                textAlign: "center"
-            }}>
-                <h2 style={{ marginBottom: "1rem", color: "#333" }}>Image Captioning</h2>
+            <h2 style={{ marginBottom: "1.5rem" }}>Image Captioning</h2>
 
-                <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    style={{ display: "none" }}
-                    onChange={handleFileChange}
-                />
+            <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+            />
 
+            <button
+                onClick={handleUploadClick}
+                style={{ ...buttonStyle, backgroundColor: "#28a745" }}
+                onMouseOver={(e) => e.target.style.backgroundColor = "#218838"}
+                onMouseOut={(e) => e.target.style.backgroundColor = "#28a745"}
+            >
+                Choose Image
+            </button>
+
+            {preview && (
+                <div style={{
+                    margin: "1.5rem 0",
+                    display: "flex",
+                    justifyContent: "center"
+                }}>
+                    <img
+                        src={preview}
+                        alt="Preview"
+                        style={{
+                            maxWidth: "100%",
+                            maxHeight: "400px",
+                            borderRadius: "8px",
+                            objectFit: "contain",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)"
+                        }}
+                    />
+                </div>
+            )}
+
+            {file && (
                 <button
-                    onClick={handleUploadClick}
+                    onClick={handleCaptionRequest}
+                    disabled={loading}
                     style={{
-                        padding: "0.5rem 1rem",
-                        border: "none",
-                        borderRadius: "6px",
-                        backgroundColor: "#28a745",
-                        color: "#fff",
-                        cursor: "pointer",
-                        fontWeight: "bold",
-                        marginBottom: "1rem"
+                        ...buttonStyle,
+                        backgroundColor: loading ? "#6c757d" : "#007bff",
+                        cursor: loading ? "not-allowed" : "pointer"
                     }}
+                    onMouseOver={(e) => !loading && (e.target.style.backgroundColor = "#0056b3")}
+                    onMouseOut={(e) => !loading && (e.target.style.backgroundColor = "#007bff")}
                 >
-                    Choose Image
+                    {loading ? "Processing..." : "Get Description"}
+                </button>
+            )}
+
+            {description && (
+                <p style={{
+                    marginTop: "1.5rem",
+                    fontSize: "1.1rem",
+                    background: "#f8f9fa",
+                    padding: "1rem",
+                    borderRadius: "8px",
+                    boxShadow: "inset 0 1px 3px rgba(0,0,0,0.05)"
+                }}>
+                    <strong>Description:</strong> {description}
+                </p>
+            )}
+
+            <div style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "2rem",
+                gap: "1rem"
+            }}>
+                <button
+                    style={{ ...buttonStyle, backgroundColor: "#17a2b8" }}
+                    onMouseOver={(e) => e.target.style.backgroundColor = "#117a8b"}
+                    onMouseOut={(e) => e.target.style.backgroundColor = "#17a2b8"}
+                >
+                    Get Speech Diarization
                 </button>
 
-                {preview && (
-                    <div style={{
-                        margin: "1rem 0",
-                        border: "1px solid #ddd",
-                        borderRadius: "8px",
-                        overflow: "hidden"
-                    }}>
-                        <img
-                            src={preview}
-                            alt="Preview"
-                            style={{ maxWidth: "100%", display: "block" }}
-                        />
-                    </div>
-                )}
-
-                {file && (
-                    <button
-                        onClick={handleCaptionRequest}
-                        disabled={loading}
-                        style={{
-                            marginTop: "0.5rem",
-                            padding: "0.5rem 1rem",
-                            border: "none",
-                            borderRadius: "6px",
-                            backgroundColor: loading ? "#6c757d" : "#007bff",
-                            color: "#fff",
-                            cursor: loading ? "not-allowed" : "pointer",
-                            fontWeight: "bold"
-                        }}
-                    >
-                        {loading ? "Processing..." : "Get Description"}
-                    </button>
-                )}
-
-                {description && (
-                    <div style={{
-                        marginTop: "1rem",
-                        padding: "0.8rem",
-                        border: "1px solid #ddd",
-                        borderRadius: "6px",
-                        backgroundColor: "#f9f9f9",
-                        textAlign: "left"
-                    }}>
-                        <strong>Description:</strong> {description}
-                    </div>
-                )}
-
-                <div style={{ marginTop: "2rem" }}>
-                    <h3 style={{ color: "#333", marginBottom: "0.8rem" }}>Other Features</h3>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                        <button style={{
-                            padding: "0.5rem 1rem",
-                            border: "none",
-                            borderRadius: "6px",
-                            backgroundColor: "#17a2b8",
-                            color: "#fff",
-                            cursor: "pointer",
-                            fontWeight: "bold"
-                        }}>
-                            Get Speech Diarization
-                        </button>
-                        <button style={{
-                            padding: "0.5rem 1rem",
-                            border: "none",
-                            borderRadius: "6px",
-                            backgroundColor: "#ffc107",
-                            color: "#333",
-                            cursor: "pointer",
-                            fontWeight: "bold"
-                        }}>
-                            Summarize Document
-                        </button>
-                    </div>
-                </div>
+                <button
+                    style={{ ...buttonStyle, backgroundColor: "#ffc107", color: "#000" }}
+                    onMouseOver={(e) => e.target.style.backgroundColor = "#e0a800"}
+                    onMouseOut={(e) => e.target.style.backgroundColor = "#ffc107"}
+                >
+                    Summarize Document
+                </button>
             </div>
         </div>
     );
